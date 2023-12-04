@@ -11,15 +11,17 @@ def get_matches(win_deck, own_deck):
 
 def part_one(game):
     result = 0
-    for card in game:
-        result += int(2 ** (get_matches(card[0], card[1]) - 1))
+    for deck in game:
+        matches = get_matches(deck[0], deck[1])
+        result += 2 ** (matches - 1) if matches > 0 else 0
+
     return result
 
 
 def part_two(game):
     card_matching_nums = []
-    for card in game:
-        card_matching_nums.append(get_matches(card[0], card[1]))
+    for deck in game:
+        card_matching_nums.append(get_matches(deck[0], deck[1]))
 
     card_amounts = [1] * len(card_matching_nums)
     for index, card in enumerate(card_matching_nums):
