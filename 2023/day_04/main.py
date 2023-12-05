@@ -34,9 +34,9 @@ if __name__ == '__main__':
     with open('input.txt', 'r') as file:
         lines = file.readlines()
         game = []
-        for text in lines:
+        for line in lines:
             pattern = r'\b\d+\b'
-            after_colon = text.split(':')[-1]
+            after_colon = line.split(':')[-1]
             parts_before_pipe = after_colon.split('|')
             before_pipe = parts_before_pipe[0]
             matches_before_pipe = re.findall(pattern, before_pipe)
