@@ -9,7 +9,7 @@ def get_matches(win_deck, own_deck):
     return counter
 
 
-def part_one(game):
+def part1(game):
     result = 0
     for deck in game:
         matches = get_matches(deck[0], deck[1])
@@ -18,7 +18,7 @@ def part_one(game):
     return result
 
 
-def part_two(game):
+def part2(game):
     card_matching_nums = []
     for deck in game:
         card_matching_nums.append(get_matches(deck[0], deck[1]))
@@ -46,5 +46,5 @@ if __name__ == '__main__':
             digits_after_pipe = [int(match) for match in matches_after_pipe]
             game.append((matches_before_pipe, matches_after_pipe))
             
-        print(part_one(game))
-        print(part_two(game))
+        print(part1(game))
+        print(part2(game))

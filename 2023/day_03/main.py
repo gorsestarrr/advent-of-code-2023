@@ -1,4 +1,4 @@
-def part_one(mtx):
+def part1(mtx):
     result = 0
     for i in range(len(mtx)):
         for j in range(len(mtx[i])):
@@ -25,7 +25,7 @@ def part_one(mtx):
     return result
 
 
-def part_two(mtx):
+def part2(mtx):
     result = 0
     for i in range(len(mtx)):
         for j in range(len(mtx[i])):
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     with open('input.txt', 'r') as file:
         lines = file.readlines()
         matrix = [list(line.strip()) for line in lines]
-        rv1 = part_one(matrix)
-        rv2 = part_two(matrix)
+        rv1 = part1(matrix)
+        rv2 = part2(matrix)
         print(rv1)
         print(rv2)

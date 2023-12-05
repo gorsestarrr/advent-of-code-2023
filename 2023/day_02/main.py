@@ -1,6 +1,17 @@
 import re
 
-def part_two(lines):
+
+def part1(lines):
+    sum = 0
+    for line in lines:
+        game_id = int(parse_game(line))
+        is_possible = check_line(line)
+        if is_possible:
+            sum += game_id
+    return sum
+
+
+def part2(lines):
     sum = 0
     for line in lines:
         game_parts = parse_parts(line)
@@ -16,14 +27,6 @@ def part_two(lines):
 
     return sum
 
-def part_one(lines):
-    sum = 0
-    for line in lines:
-        game_id = int(parse_game(line))
-        is_possible = check_line(line)
-        if is_possible:
-            sum += game_id
-    return sum
 
 def check_line(line):
     game_parts = parse_parts(line)
@@ -31,6 +34,7 @@ def check_line(line):
         if not check_part(part):
             return False
     return True
+
 
 def parse_parts(parts):
     pattern = re.compile(r'[^;]+')
@@ -60,7 +64,5 @@ def parse_sum_by_color(color, text):
 if __name__ == '__main__':
     with open('input.txt', 'r') as file:
         lines = file.readlines()
-        sum1 = part_one(lines)
-        sum2 = part_two(lines)
-        print(sum1)
-        print(sum2)
+        print(part1(lines))
+        print(part2(lines))

@@ -1,13 +1,13 @@
 import string
 
 
-def part_one(line: string) -> int:
+def part1(line: string) -> int:
     first_digit = next(char for char in line if char.isdigit())
     last_digit = next(char for char in reversed(line) if char.isdigit())
     return int(str(first_digit) + str(last_digit))
 
 
-def part_two_prepare(line: string) -> string:
+def part2prepare(line: string) -> string:
     word_list = {
         "one": 1,
         "two": 2,
@@ -25,18 +25,18 @@ def part_two_prepare(line: string) -> string:
     return line
 
 
-def part_two(line: string) -> int:
-    return part_one(part_two_prepare(line))
+def part2(line: string) -> int:
+    return part1(part2prepare(line))
 
 
 if __name__ == '__main__':
-    partOneResult = 0
-    partTwoResult = 0
+    rv1 = 0
+    rv2 = 0
     with open('input.txt', 'r') as file:
         lines = file.readlines()
         for line in lines:
-            partOneResult += part_one(line)
-            partTwoResult += part_two(line)
+            rv1 += part1(line)
+            rv2 += part2(line)
 
-    print("Part One: " + str(partOneResult))
-    print("Part Two: " + str(partTwoResult))
+    print(str(rv1))
+    print(str(rv2))
