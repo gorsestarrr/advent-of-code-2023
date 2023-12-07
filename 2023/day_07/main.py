@@ -3,13 +3,18 @@ from functools import cmp_to_key
 
 
 class Card:
-    def __init__(self, value):
+    def __init__(self, value, joker_mode):
         self.value = value
+        self.joker_mode = joker_mode
 
     def comparator(self, other):
         if self.value == other.value:
             return 0
-        cards = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A']
+        cards = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A']
+        j_pos = 9
+        if self.joker_mode:
+            j_pos = 0
+        cards.insert(j_pos, 'J')
         return 1 if cards.index(self.value) > cards.index(other.value) else -1
 
     def __hash__(self):
@@ -45,6 +50,16 @@ class Hand:
         map = defaultdict(int)
         for c in self.cards:
             map[c] += 1
+        if self.cards[0].joker_mode:
+            if ''.join([char.value for char in self.cards]) == 'JJJJJ':
+                return 6
+            max_item = max(((k, v) for k, v in map.items() if k.value != 'J'), key=lambda x: x[1])
+            to_remove = []
+            for key in map.keys():
+                if key.value == 'J':
+                    map[max_item[0]] += map[key]
+                    to_remove.append(key)
+            map = {key: value for key, value in map.items() if key not in to_remove}
         if len(map.keys()) == 1:
             return 6
         if len(map.keys()) == 2:
@@ -55,6 +70,7 @@ class Hand:
             return 1
         return 0
 
+    @staticmethod
     def comparator(a, b):
         if a.get_type() > b.get_type():
             return 1
@@ -68,26 +84,30 @@ class Hand:
             return -1
 
 
-def parse(file):
-    lines = file.readlines()
+def parse(data, joker_mode):
     decks = []
-    for line in lines:
+    for line in data:
         parsed = line.strip().split(" ")
-        cards = [Card(char) for char in parsed[0]]
+        cards = [Card(char, joker_mode) for char in parsed[0]]
         bid = int(parsed[1])
         decks.append(Hand(cards, bid))
     return decks
 
+def part1(data):
+    return solve(data, False)
 
-def part1(decks):
+def part2(data):
+    return solve(data, True)
+
+def solve(data, joker_mode):
+    decks = parse(data, joker_mode)
     decks = sorted(decks, key=cmp_to_key(Hand.comparator))
     rv = 0
     for i, deck in enumerate(decks):
         rv += deck.bid * (i + 1)
     return rv
 
-
 if __name__ == '__main__':
     with open('input.txt', 'r') as file:
-        decks = parse(file)
-        print(part1(decks))
+      data = file.readlines()
+      print(part2(data))
