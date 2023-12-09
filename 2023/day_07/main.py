@@ -46,19 +46,19 @@ class Hand:
         if self.joker_mode:
             if ''.join([char.value for char in self.cards]) == 'JJJJJ':
                 return 6
-            max_non_j = max(((k, v) for k, v in freq.items() if k.value != 'J'), key=lambda x: x[1])
-            to_remove = []
+            max_non_jokers = max(((k, v) for k, v in freq.items() if k.value != 'J'), key=lambda x: x[1])
+            jokers_to_remove = []
             for key in freq.keys():
                 if key.value == 'J':
-                    freq[max_non_j[0]] += freq[key]
-                    to_remove.append(key)
-            freq = {key: value for key, value in freq.items() if key not in to_remove}
+                    freq[max_non_jokers[0]] += freq[key]
+                    jokers_to_remove.append(key)
+            freq = {key: value for key, value in freq.items() if key not in jokers_to_remove}
         if len(freq.keys()) == 1:
             return 6
         if len(freq.keys()) == 2:
-            return 5 if max(list(freq.values())[0], list(freq.values())[1]) == 4 else 4
+            return 5 if max(freq.values()) == 4 else 4
         if len(freq.keys()) == 3:
-            return 3 if max(list(freq.values())[0], list(freq.values())[1], list(freq.values())[2]) == 3 else 2
+            return 3 if max(freq.values()) == 3 else 2
         if len(freq.keys()) == 4:
             return 1
         return 0
