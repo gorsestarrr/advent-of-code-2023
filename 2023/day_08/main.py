@@ -6,7 +6,7 @@ from functools import reduce
 def parse(all_data_lines):
     directions = all_data_lines[0].replace('L', '0').replace('R', '1').strip()
     tuples = {}
-    pattern = re.compile(r'(\w+)\s*=\s*\(([^)]+)\)')
+    pattern = re.compile(r'(\w+)\s*=\s*\((.+)\)')
     for line in all_data_lines:
         match = pattern.match(line.strip())
         if match:
