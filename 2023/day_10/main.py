@@ -1,6 +1,9 @@
+from collections import deque
+
+
 def parse(lines):
     graph, grid = {}, {}
-    start = {0,0}
+    start_node = None
     for column, line in enumerate(lines):
         for row, char in enumerate(line.strip()):
             moves = {
@@ -19,30 +22,28 @@ def parse(lines):
             graph[row, column] = filtered_moves[char]
             grid[row, column] = char
             if char == "S":
-                start = (row, column)
+                start_node = (row, column)
 
-    return graph, grid, start
+    return graph, grid, start_node
 
 
-def find_path(graph, start):
-    path = [start]
-    while path[-1] != start or len(path) < 2:
-        current_node = path[-1]
-        neighbors = []
+def bfs(graph, start_node):
+    queue = deque([start_node])
+    visited = set([start_node])
+
+    while queue:
+        current_node = queue.popleft()
         for neighbor in graph[current_node]:
-            if neighbor not in path:
-                neighbors.append(neighbor)
-        if neighbors:
-            next_node = neighbors[0]
-            path.append(next_node)
-        else:
-            break
-    return path
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+    return list(visited)
 
 
 if __name__ == '__main__':
     with open('input.txt', 'r') as file:
         lines = file.readlines()
-        graph, grid, start = parse(lines)
-        path = find_path(graph, start)
+        graph, grid, start_node = parse(lines)
+        path = bfs(graph, start_node)
         print(len(path) // 2)
