@@ -40,10 +40,20 @@ def bfs(graph, start_node):
 
     return list(visited)
 
-
 if __name__ == '__main__':
     with open('input.txt', 'r') as file:
         lines = file.readlines()
         graph, grid, start_node = parse(lines)
         path = bfs(graph, start_node)
         print(len(path) // 2)
+        count = 0
+        for y in range(len(lines[0])):
+            p = 0
+            for x in range(len(lines)):
+                if (x, y) not in path:
+                    if p % 2 == 1:
+                        count += 1
+                    continue
+                if grid[(x,y)] in ['|', 'L', 'J']:
+                    p += 1
+        print(count)
