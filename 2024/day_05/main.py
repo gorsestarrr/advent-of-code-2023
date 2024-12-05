@@ -35,11 +35,7 @@ def custom_comparator(x, y):
 
 def part2(rules, updates):
     incorrect_updates = [u for u in updates if not check_update(rules, u)]
-    sum = 0
-    for update in incorrect_updates:
-        update_sorted = sorted(update, key=cmp_to_key(custom_comparator))
-        sum += update_sorted[len(update_sorted) // 2]
-    return sum
+    return sum(sorted(update, key=cmp_to_key(custom_comparator))[len(update) // 2] for update in incorrect_updates)
 
 
 if __name__ == '__main__':
