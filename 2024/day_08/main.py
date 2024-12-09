@@ -55,13 +55,13 @@ def part2(matrix):
             distance_y = abs(first[1] - second[1])
             slope = None if second[0] - first[0] == 0 else (second[1] - first[1]) / (second[0] - first[0])
             if slope is None:  # Vertical line
-                dx, dy = 0, -distance_y
+                dx, dy = 0, distance_y
             elif slope > 0:
-                dx, dy = -distance_x, -distance_y
+                dx, dy = distance_x, distance_y
             elif slope < 0:
                 dx, dy = distance_x, -distance_y
             else:  # Horizontal line
-                dx, dy = -distance_x, 0
+                dx, dy = distance_x, 0
             for direction in [1, -1]:  # Forward and backward directions
                 current_x, current_y = first[0], first[1]
                 while 0 <= current_x < cols and 0 <= current_y < rows:
